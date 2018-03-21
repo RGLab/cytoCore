@@ -1,0 +1,11 @@
+CXX_STD = CXX11
+PKG_LIBS =`${R_HOME}/bin/Rscript -e "RProtoBufLib:::LdFlags();cat(' ');Rhdf5lib::pkgconfig('PKG_CXX_LIBS')"` -lstdc++fs
+PKG_CPPFLAGS = -I../inst/include -DARMA_DONT_USE_WRAPPER -lopenblas -Wno-unknown-pragmas -Wno-comment
+.PHONY: all clean 
+
+all: $(SHLIB) 
+	if [ `uname -s` = 'Darwin' ]; then install_name_tool -change /usr/local/clang4/lib/libc++.1.dylib /usr/lib/libc++.1.dylib $(SHLIB); fi
+
+
+clean:
+	rm -f $(OBJECTS) $(SHLIB)

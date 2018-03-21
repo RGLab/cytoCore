@@ -1,0 +1,23 @@
+Package: cytoCore
+Title: cytoCore: R bindings for cytolib c++ library
+Version: 1.45.7
+Author: Mike Jiang, Greg Finak
+Description: Provides R data structures and basic functions to deal with cytometry data.
+Maintainer: M.Jiang <wjiang2@fhcrc.org>
+Depends:
+    R (>= 2.10.0)
+Imports:
+    flowCore
+Suggests:
+    testthat,
+    flowWorkspace,
+    flowWorkspaceData,
+    openCyto,
+    knitr,
+    ggcyto,
+License: Artistic-2.0
+biocViews: Infrastructure, FlowCytometry, CellBasedAssays
+LinkingTo: Rcpp, BH(>= 1.65.0.1), RProtoBufLib(>= 2.1.4), cytolib, Rhdf5lib, RcppArmadillo
+VignetteBuilder: knitr
+SystemRequirements: GNU make, C++11
+RoxygenNote: 6.0.1
