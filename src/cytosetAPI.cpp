@@ -43,7 +43,7 @@ void subset_cytoset_by_rows(Rcpp::XPtr<CytoSet> cs
                                             )
 {
   
-  cs->get_cytoframe(sn)->rows_(idx);
+  cs->get_cytoframe_view(sn).rows_(idx);
 }
   
 // [[Rcpp::export]]
@@ -56,7 +56,7 @@ Rcpp::XPtr<CytoSet> subset_cytoset(Rcpp::XPtr<CytoSet> cs
   /*
   * parse i index (sample name)
   */
-  XPtr<CytoSet> cs_new(new CytoSet(cs->copy()));
+  XPtr<CytoSet> cs_new(new CytoSet(*cs));
   unsigned short i_type = TYPEOF(i_obj);
   // Rcout << "i_type:" << i_type << endl;
   if(i_type != NILSXP)
@@ -93,7 +93,7 @@ Rcpp::XPtr<CytoSet> subset_cytoset(Rcpp::XPtr<CytoSet> cs
 }
 
 // [[Rcpp::export]]
-Rcpp::XPtr<CytoFrame> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
+Rcpp::XPtr<CytoFrameView> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
                 , Rcpp::RObject i_obj
                 , Rcpp::RObject j_obj
                 , bool useExpr)
@@ -118,7 +118,7 @@ Rcpp::XPtr<CytoFrame> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
     Rcpp::stop("unsupported i type!");
 
   
-  XPtr<CytoFrame> frame_ptr(cs->get_cytoframe(sample_uid)->copy().release());
+  XPtr<CytoFrameView> frame(new CytoFrameView(cs->get_cytoframe_view(sample_uid)));
   /*
   * parse j index (channel names)
   */
@@ -130,7 +130,7 @@ Rcpp::XPtr<CytoFrame> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
   if(j_type != NILSXP)
   {
     //get local channel names
-    StringVector colnames = wrap(frame_ptr->get_channels());
+    StringVector colnames = wrap(frame->get_channels());
     StringVector ch_selected;
     
     //creating j index used for subsetting colnames and pdata
@@ -166,10 +166,10 @@ Rcpp::XPtr<CytoFrame> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
     else
       Rcpp::stop("unsupported j expression!");
     
-    frame_ptr->cols_(as<vector<string>>(ch_selected), ColType::channel);
+    frame->cols_(as<vector<string>>(ch_selected), ColType::channel);
   }
   
-  return frame_ptr;
+  return frame;
   
    
 }
@@ -187,9 +187,9 @@ List get_pheno_data(Rcpp::XPtr<CytoSet> cs)
   for(const auto & it_cs : *cs)
   {
     sample_uids[i] = it_cs.first;
-    const shared_ptr<CytoFrame> & fr = it_cs.second;
+    const CytoFrameView & fr = it_cs.second;
     //assuming pdata is already homogenious across ghs
-    for(const auto & j: fr->get_pheno_data())
+    for(const auto & j: fr.get_pheno_data())
     {
       if(i==0)
         pd[j.first] = vector<string>(nSample);

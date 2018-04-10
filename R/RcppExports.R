@@ -5,6 +5,10 @@ copy_Cytoframe <- function(fr) {
     .Call('_cytoCore_copy_Cytoframe', PACKAGE = 'cytoCore', fr)
 }
 
+copy_CytoframeView <- function(fr) {
+    .Call('_cytoCore_copy_CytoframeView', PACKAGE = 'cytoCore', fr)
+}
+
 subset_cytoframe_by_rows <- function(fr, idx) {
     invisible(.Call('_cytoCore_subset_cytoframe_by_rows', PACKAGE = 'cytoCore', fr, idx))
 }

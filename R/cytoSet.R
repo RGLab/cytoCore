@@ -45,10 +45,7 @@ setMethod("[[",
             fr
             
           })
-# ==========================================================================
-# subsetting methods
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-# to flowSet
+
 setMethod("[",
 	signature=signature(x="cytoSet"),
 	definition=function(x, i, j, ..., drop=FALSE)

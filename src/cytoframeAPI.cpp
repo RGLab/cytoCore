@@ -6,21 +6,26 @@ using namespace cytolib;
 
  
 // [[Rcpp::export]]
-Rcpp::XPtr<CytoFrame> copy_Cytoframe(Rcpp::XPtr<CytoFrame> fr)
+Rcpp::XPtr<CytoFrameView> copy_Cytoframe(Rcpp::XPtr<CytoFrameView> fr)
 {
- return XPtr<CytoFrame>(fr->copy().release());
+ return XPtr<CytoFrameView>(new CytoFrameView(fr->copy()));
 }
 
+// [[Rcpp::export]]
+Rcpp::XPtr<CytoFrameView> copy_CytoframeView(Rcpp::XPtr<CytoFrameView> fr)
+{
+  return XPtr<CytoFrameView>(new CytoFrameView(*fr));
+}
 
 // [[Rcpp::export]]
-void subset_cytoframe_by_rows(Rcpp::XPtr<CytoFrame> fr, vector<unsigned> idx)
+void subset_cytoframe_by_rows(Rcpp::XPtr<CytoFrameView> fr, vector<unsigned> idx)
 {
   
   fr->rows_(idx);
 }
 
 // [[Rcpp::export]]
-void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrame> fr, vector<string> cols)
+void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrameView> fr, vector<string> cols)
 {
   
   fr->cols_(cols, ColType::channel);
@@ -41,7 +46,7 @@ void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrame> fr, vector<string> cols)
  
  
 // [[Rcpp::export]] 
-void frm_compensate(Rcpp::XPtr<CytoFrame> fr, NumericMatrix spillover){
+void frm_compensate(Rcpp::XPtr<CytoFrameView> fr, NumericMatrix spillover){
   vector<string> marker = as<vector<string>>(colnames(spillover));
   mat spill = as<mat>(spillover);
   // spill.print(Rcout, "spill");
@@ -50,7 +55,7 @@ void frm_compensate(Rcpp::XPtr<CytoFrame> fr, NumericMatrix spillover){
   fr->compensate(comp);
 }
 // [[Rcpp::export]] 
-NumericMatrix get_spillover(Rcpp::XPtr<CytoFrame> fr, string key){
+NumericMatrix get_spillover(Rcpp::XPtr<CytoFrameView> fr, string key){
 	compensation comp = fr->get_compensation(key);
   // Rcout << comp.marker.size() << endl;
   // Rcout << comp.spillOver.size() << endl;
@@ -63,31 +68,31 @@ NumericMatrix get_spillover(Rcpp::XPtr<CytoFrame> fr, string key){
 }
 
 // [[Rcpp::export]]
-void writeH5(Rcpp::XPtr<CytoFrame> fr, string filename){
+void writeH5(Rcpp::XPtr<CytoFrameView> fr, string filename){
   fr->write_h5(filename);
   
 }
 
 // [[Rcpp::export]] 
-void setMarker(Rcpp::XPtr<CytoFrame> fr, string old, string new_name){
+void setMarker(Rcpp::XPtr<CytoFrameView> fr, string old, string new_name){
   fr->set_marker(old, new_name);
 }                                      
 
 // [[Rcpp::export]] 
-void setChannel(Rcpp::XPtr<CytoFrame> fr, string old, string new_name){
+void setChannel(Rcpp::XPtr<CytoFrameView> fr, string old, string new_name){
   fr->set_channel(old, new_name);
 }                                      
                                       
 // [[Rcpp::export]] 
-Rcpp::XPtr<MemCytoFrame> parseFCS(string filename, FCS_READ_PARAM config, bool text_only = false)
+Rcpp::XPtr<CytoFrameView> parseFCS(string filename, FCS_READ_PARAM config, bool text_only = false)
 {
 
-    Rcpp::XPtr<MemCytoFrame> fr(new MemCytoFrame(filename.c_str(), config));
+    unique_ptr<MemCytoFrame> fr(new MemCytoFrame(filename.c_str(), config));
     if(text_only)
       fr->read_fcs_header();
     else
       fr->read_fcs();
-    return fr;
+    return Rcpp::XPtr<CytoFrameView>(new CytoFrameView(CytoFramePtr(fr.release())));
 
 }
 

@@ -39,8 +39,8 @@ setMethod("ncol",
 
 
 #' @export 
-copyCytoframe <- function(x){
-  new("cytoSet", pointer = copy_Cytoframe(x@pointer))
+copy_cytoframe <- function(x){
+  new("cytoFrame", pointer = copy_Cytoframe(x@pointer))
 }
 
 setMethod("[",
@@ -65,8 +65,9 @@ setMethod("[",
         if(max(abs(i)) > nrow(x))
           stop(msg, call.=FALSE)
       
-      fr <- copyCytoframe(x)
-      subset_cytoframe(fr@pointer, i, j)
+      fr <- copy_CytoframeView(x)
+      subset_cytoframe_by_rows(fr@pointer, i)
+      subset_cytoframe_by_rows(fr@pointer, j)
       fr
     })
 
