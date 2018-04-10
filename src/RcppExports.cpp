@@ -7,25 +7,25 @@
 
 using namespace Rcpp;
 
-// copy_Cytoframe
-Rcpp::XPtr<CytoFrameView> copy_Cytoframe(Rcpp::XPtr<CytoFrameView> fr);
-RcppExport SEXP _cytoCore_copy_Cytoframe(SEXP frSEXP) {
+// deep_copy_cytoframe
+Rcpp::XPtr<CytoFrameView> deep_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr);
+RcppExport SEXP _cytoCore_deep_copy_cytoframe(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
-    rcpp_result_gen = Rcpp::wrap(copy_Cytoframe(fr));
+    rcpp_result_gen = Rcpp::wrap(deep_copy_cytoframe(fr));
     return rcpp_result_gen;
 END_RCPP
 }
-// copy_CytoframeView
-Rcpp::XPtr<CytoFrameView> copy_CytoframeView(Rcpp::XPtr<CytoFrameView> fr);
-RcppExport SEXP _cytoCore_copy_CytoframeView(SEXP frSEXP) {
+// shallow_copy_cytoframe
+Rcpp::XPtr<CytoFrameView> shallow_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr);
+RcppExport SEXP _cytoCore_shallow_copy_cytoframe(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
-    rcpp_result_gen = Rcpp::wrap(copy_CytoframeView(fr));
+    rcpp_result_gen = Rcpp::wrap(shallow_copy_cytoframe(fr));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -41,13 +41,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // subset_cytoframe_by_cols
-void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrameView> fr, vector<string> cols);
-RcppExport SEXP _cytoCore_subset_cytoframe_by_cols(SEXP frSEXP, SEXP colsSEXP) {
+void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrameView> fr, vector<unsigned> idx);
+RcppExport SEXP _cytoCore_subset_cytoframe_by_cols(SEXP frSEXP, SEXP idxSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
-    Rcpp::traits::input_parameter< vector<string> >::type cols(colsSEXP);
-    subset_cytoframe_by_cols(fr, cols);
+    Rcpp::traits::input_parameter< vector<unsigned> >::type idx(idxSEXP);
+    subset_cytoframe_by_cols(fr, idx);
     return R_NilValue;
 END_RCPP
 }
@@ -123,79 +123,79 @@ BEGIN_RCPP
 END_RCPP
 }
 // getData
-NumericVector getData(Rcpp::XPtr<CytoFrame> fr);
+NumericVector getData(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_getData(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     rcpp_result_gen = Rcpp::wrap(getData(fr));
     return rcpp_result_gen;
 END_RCPP
 }
 // getKeyword
-string getKeyword(Rcpp::XPtr<CytoFrame> fr, string key);
+string getKeyword(Rcpp::XPtr<CytoFrameView> fr, string key);
 RcppExport SEXP _cytoCore_getKeyword(SEXP frSEXP, SEXP keySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     Rcpp::traits::input_parameter< string >::type key(keySEXP);
     rcpp_result_gen = Rcpp::wrap(getKeyword(fr, key));
     return rcpp_result_gen;
 END_RCPP
 }
 // getKeywords
-KW_PAIR getKeywords(Rcpp::XPtr<CytoFrame> fr);
+KW_PAIR getKeywords(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_getKeywords(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     rcpp_result_gen = Rcpp::wrap(getKeywords(fr));
     return rcpp_result_gen;
 END_RCPP
 }
 // setKeywords
-void setKeywords(Rcpp::XPtr<CytoFrame> fr, List keys);
+void setKeywords(Rcpp::XPtr<CytoFrameView> fr, List keys);
 RcppExport SEXP _cytoCore_setKeywords(SEXP frSEXP, SEXP keysSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     Rcpp::traits::input_parameter< List >::type keys(keysSEXP);
     setKeywords(fr, keys);
     return R_NilValue;
 END_RCPP
 }
 // getncol
-int getncol(Rcpp::XPtr<CytoFrame> fr);
+int getncol(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_getncol(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     rcpp_result_gen = Rcpp::wrap(getncol(fr));
     return rcpp_result_gen;
 END_RCPP
 }
 // getnrow
-int getnrow(Rcpp::XPtr<CytoFrame> fr);
+int getnrow(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_getnrow(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     rcpp_result_gen = Rcpp::wrap(getnrow(fr));
     return rcpp_result_gen;
 END_RCPP
 }
 // getpdata
-Rcpp::DataFrame getpdata(Rcpp::XPtr<CytoFrame> fr);
+Rcpp::DataFrame getpdata(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_getpdata(SEXP frSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrame> >::type fr(frSEXP);
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
     rcpp_result_gen = Rcpp::wrap(getpdata(fr));
     return rcpp_result_gen;
 END_RCPP
@@ -308,8 +308,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_cytoCore_copy_Cytoframe", (DL_FUNC) &_cytoCore_copy_Cytoframe, 1},
-    {"_cytoCore_copy_CytoframeView", (DL_FUNC) &_cytoCore_copy_CytoframeView, 1},
+    {"_cytoCore_deep_copy_cytoframe", (DL_FUNC) &_cytoCore_deep_copy_cytoframe, 1},
+    {"_cytoCore_shallow_copy_cytoframe", (DL_FUNC) &_cytoCore_shallow_copy_cytoframe, 1},
     {"_cytoCore_subset_cytoframe_by_rows", (DL_FUNC) &_cytoCore_subset_cytoframe_by_rows, 2},
     {"_cytoCore_subset_cytoframe_by_cols", (DL_FUNC) &_cytoCore_subset_cytoframe_by_cols, 2},
     {"_cytoCore_frm_compensate", (DL_FUNC) &_cytoCore_frm_compensate, 2},

@@ -1,0 +1,95 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+cytoCore
+========
+
+R bindings of the Core cytometry infrastructure
+
+Installation
+========
+```{r eval=FALSE}
+devtools::install_github("RGLab/RProtoBufLib", ref = "cytoset")
+devtools::install_github("RGLab/cytolib", ref = "cytoset")
+devtools::install_github("RGLab/cytoCore")
+```
+
+CytoFrame
+========
+```{r}
+library(cytoCore)
+files <- list.files(pattern = ".fcs", "../flowWorkspace/wsTestSuite/curlyQuad/example1/", full.names = T)
+fr <- load_cytoframe_from_fcs(files[1])
+fr
+#accessors
+dim(fr)
+colnames(fr)
+#fetch data
+head(exprs(fr))
+```
+
+Read header only
+========
+```{r}
+fr1 <- load_cytoframe_from_fcs(files[1], text.only = T)
+nrow(fr1)
+spillover(fr1)
+#keyword
+head(keyword(fr1))
+```
+
+Parallel read
+========
+```{r}
+fr <- load_cytoframe_from_fcs(files[3], num_threads = 3)
+```
+
+Pass by reference
+=========
+```{r}
+fr1 <- fr #fr1 is a reference
+colnames(fr1)[1]
+colnames(fr1)[1] <- "t"
+colnames(fr)[1] # change affects the original fr object
+```
+
+Shallow copy
+=========
+```{r}
+fr1 <- fr[1:10, 2:3] #subsetting is cheap since it is merely a view of orignal fr
+#they both share the same underlying data pointer
+# exprs(fr1)[2] <- 0 # data change affects the orignal fr
+
+dim(fr1)
+dim(fr)
+```
+
+Deep copy
+=========
+```{r}
+fr1 <- deep_copy(fr) #fr1 is independent copy
+```
+
+Coerce to flowFrame
+=========
+```{r}
+as.flowFrame(fr)
+
+```
+
+Save to h5
+======
+```{r}
+tmpfile <- tempfile(fileext = ".h5")
+write.h5(fr, tmpfile)
+library(rhdf5)
+h5 <- H5Fopen(tmpfile)
+h5
+H5Fclose(h5)
+```
+
+
+

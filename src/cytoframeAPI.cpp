@@ -6,13 +6,13 @@ using namespace cytolib;
 
  
 // [[Rcpp::export]]
-Rcpp::XPtr<CytoFrameView> copy_Cytoframe(Rcpp::XPtr<CytoFrameView> fr)
+Rcpp::XPtr<CytoFrameView> deep_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr)
 {
  return XPtr<CytoFrameView>(new CytoFrameView(fr->copy()));
 }
 
 // [[Rcpp::export]]
-Rcpp::XPtr<CytoFrameView> copy_CytoframeView(Rcpp::XPtr<CytoFrameView> fr)
+Rcpp::XPtr<CytoFrameView> shallow_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr)
 {
   return XPtr<CytoFrameView>(new CytoFrameView(*fr));
 }
@@ -25,10 +25,10 @@ void subset_cytoframe_by_rows(Rcpp::XPtr<CytoFrameView> fr, vector<unsigned> idx
 }
 
 // [[Rcpp::export]]
-void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrameView> fr, vector<string> cols)
+void subset_cytoframe_by_cols(Rcpp::XPtr<CytoFrameView> fr, vector<unsigned> idx)
 {
   
-  fr->cols_(cols, ColType::channel);
+  fr->cols_(idx);
 }
  /*
   * subset by cols and rows in place for each frames
@@ -97,7 +97,7 @@ Rcpp::XPtr<CytoFrameView> parseFCS(string filename, FCS_READ_PARAM config, bool 
 }
 
 // [[Rcpp::export]] 
-NumericVector getData(Rcpp::XPtr<CytoFrame> fr){
+NumericVector getData(Rcpp::XPtr<CytoFrameView> fr){
   // int nrow = fr->n_rows();
   int ncol = fr->n_cols();
   // int ntotal = ncol * nrow;
@@ -117,38 +117,38 @@ NumericVector getData(Rcpp::XPtr<CytoFrame> fr){
 }
 
 // [[Rcpp::export]] 
-string getKeyword(Rcpp::XPtr<CytoFrame> fr, string key){
+string getKeyword(Rcpp::XPtr<CytoFrameView> fr, string key){
   
   string res = fr->get_keyword(key);
   return res;
 }
 
 // [[Rcpp::export]] 
-KW_PAIR getKeywords(Rcpp::XPtr<CytoFrame> fr){
+KW_PAIR getKeywords(Rcpp::XPtr<CytoFrameView> fr){
   // return fr->getKeywords().getPairs();
   return fr->get_keywords().getPairs();
 }
 
 // [[Rcpp::export]] 
-void setKeywords(Rcpp::XPtr<CytoFrame> fr, List keys){
+void setKeywords(Rcpp::XPtr<CytoFrameView> fr, List keys){
     vector<string> names = keys.names();
     for(int i = 0; i < keys.size(); i++) 
       fr->set_keyword(names[i], keys[i]);
 }
 // [[Rcpp::export]] 
-int getncol(Rcpp::XPtr<CytoFrame> fr){
+int getncol(Rcpp::XPtr<CytoFrameView> fr){
   
   return fr->n_cols();
 }
 
 // [[Rcpp::export]] 
-int getnrow(Rcpp::XPtr<CytoFrame> fr){
+int getnrow(Rcpp::XPtr<CytoFrameView> fr){
   
   return fr->n_rows();
 }
 
 // [[Rcpp::export]] 
-Rcpp::DataFrame getpdata(Rcpp::XPtr<CytoFrame> fr){
+Rcpp::DataFrame getpdata(Rcpp::XPtr<CytoFrameView> fr){
   
   int ncol = fr->n_cols();
   StringVector rowid(ncol);

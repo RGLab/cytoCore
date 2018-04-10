@@ -1,11 +1,11 @@
 Package: cytoCore
-Title: cytoCore: R bindings for cytolib c++ library
+Title: R bindings for cytolib c++ library
 Version: 1.45.7
 Author: Mike Jiang, Greg Finak
 Description: Provides R data structures and basic functions to deal with cytometry data.
 Maintainer: M.Jiang <wjiang2@fhcrc.org>
 Depends:
-    R (>= 2.10.0)
+    flowCore
 Imports:
     flowCore
 Suggests:

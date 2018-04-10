@@ -37,37 +37,56 @@ setMethod("ncol",
       getncol(x@pointer)
 )
 
+#' @export
+deep_copy <- function(x, ...)UseMethod("deep_copy")
 
 #' @export 
-copy_cytoframe <- function(x){
-  new("cytoFrame", pointer = copy_Cytoframe(x@pointer))
+deep_copy.cytoFrame <- function(x){
+  new("cytoFrame", pointer = deep_copy_cytoframe(x@pointer))
+}
+
+#' @export
+shallow_copy <- function(x, ...)UseMethod("shallow_copy")
+
+#' @export 
+shallow_copy.cytoFrame <- function(x){
+  new("cytoFrame", pointer = shallow_copy_cytoframe(x@pointer))
 }
 
 setMethod("[",
     signature=signature(x="cytoFrame"),
     definition=function(x, i, j, ..., drop=FALSE)
     {
+      fr <- shallow_copy(x)
       if(drop)
         warning("Argument 'drop' ignored for subsetting of flowFrame")
       msg <- "Subset out of bounds"
       if(!missing(j)){
         if(is.logical(j))
-          if(max(which(j)) > ncol(x))
+         j <- which(j)
+        else if(is.character(j))
+        {
+          j <- match(j, colnames(x))
+          if(any(is.na(j)))
             stop(msg, call.=FALSE)
-        if(is.numeric(j))
-          if(max(abs(j)) > ncol(x))
-            stop(msg, call.=FALSE)
-        if(is.character(j))
-          if(!all(j %in% colnames(x)))
-            stop(msg, call.=FALSE)
+        }
+            
+        if(is.numeric(j)||is.integer(j))    
+          subset_cytoframe_by_cols(fr@pointer, j - 1)
+        else
+          stop("invalid j index!")
       }
-      if(!missing(i))
-        if(max(abs(i)) > nrow(x))
-          stop(msg, call.=FALSE)
       
-      fr <- copy_CytoframeView(x)
-      subset_cytoframe_by_rows(fr@pointer, i)
-      subset_cytoframe_by_rows(fr@pointer, j)
+      if(!missing(i))
+      {
+        if(is.logical(i))
+          i <- which(i)
+        if(is.numeric(i)||is.integer(i))    
+          subset_cytoframe_by_rows(fr@pointer, i - 1)
+        else
+          stop("invalid i index!")
+      }
+
       fr
     })
 
@@ -182,6 +201,7 @@ setReplaceMethod("keyword",
     })
 
 # coerce cytoFrame to flowFrame
+#' @export
 as.flowFrame <- function(fr){
   fr@exprs <- exprs(fr)
   fr@description = keyword(fr)
