@@ -97,8 +97,8 @@ subset_cytoset <- function(cs, i_obj, j_obj) {
     .Call('_cytoCore_subset_cytoset', PACKAGE = 'cytoCore', cs, i_obj, j_obj)
 }
 
-get_cytoFrame <- function(cs, i_obj, j_obj, useExpr) {
-    .Call('_cytoCore_get_cytoFrame', PACKAGE = 'cytoCore', cs, i_obj, j_obj, useExpr)
+get_cytoFrame <- function(cs, i_obj, j_obj) {
+    .Call('_cytoCore_get_cytoFrame', PACKAGE = 'cytoCore', cs, i_obj, j_obj)
 }
 
 get_pheno_data <- function(cs) {

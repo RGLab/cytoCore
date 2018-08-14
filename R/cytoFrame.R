@@ -4,7 +4,10 @@ NULL
 #' @importClassesFrom flowCore flowFrame
 #' @export 
 setClass("cytoFrame", contains = "flowFrame" ,               
-    representation=representation(pointer = "externalptr"))
+    representation=representation(pointer = "externalptr"
+                                  , use.exprs = "logical" #for the purpose  of backward compatible (e.g. fs[[1, use.exprs = F]]
+                                  )
+                              )
 
 #' @import flowCore 
 setMethod("spillover",
@@ -93,7 +96,13 @@ setMethod("[",
 setMethod("exprs",
     signature=signature(object="cytoFrame"),
     definition=function(object){
-      getData(object@pointer)
+      if(object@use.exprs)
+        getData(object@pointer)
+      else
+      {
+        cn <- colnames(object)
+        matrix(nrow = 0, ncol = length(cn), dimnames = list(NULL, cn))
+      }
     })
 
 setReplaceMethod("colnames",

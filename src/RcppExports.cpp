@@ -282,16 +282,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_cytoFrame
-Rcpp::XPtr<CytoFrameView> get_cytoFrame(Rcpp::XPtr<CytoSet> cs, Rcpp::RObject i_obj, Rcpp::RObject j_obj, bool useExpr);
-RcppExport SEXP _cytoCore_get_cytoFrame(SEXP csSEXP, SEXP i_objSEXP, SEXP j_objSEXP, SEXP useExprSEXP) {
+Rcpp::XPtr<CytoFrameView> get_cytoFrame(Rcpp::XPtr<CytoSet> cs, Rcpp::RObject i_obj, Rcpp::RObject j_obj);
+RcppExport SEXP _cytoCore_get_cytoFrame(SEXP csSEXP, SEXP i_objSEXP, SEXP j_objSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::XPtr<CytoSet> >::type cs(csSEXP);
     Rcpp::traits::input_parameter< Rcpp::RObject >::type i_obj(i_objSEXP);
     Rcpp::traits::input_parameter< Rcpp::RObject >::type j_obj(j_objSEXP);
-    Rcpp::traits::input_parameter< bool >::type useExpr(useExprSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_cytoFrame(cs, i_obj, j_obj, useExpr));
+    rcpp_result_gen = Rcpp::wrap(get_cytoFrame(cs, i_obj, j_obj));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -332,7 +331,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cytoCore_copy_cytoset", (DL_FUNC) &_cytoCore_copy_cytoset, 1},
     {"_cytoCore_subset_cytoset_by_rows", (DL_FUNC) &_cytoCore_subset_cytoset_by_rows, 3},
     {"_cytoCore_subset_cytoset", (DL_FUNC) &_cytoCore_subset_cytoset, 3},
-    {"_cytoCore_get_cytoFrame", (DL_FUNC) &_cytoCore_get_cytoFrame, 4},
+    {"_cytoCore_get_cytoFrame", (DL_FUNC) &_cytoCore_get_cytoFrame, 3},
     {"_cytoCore_get_pheno_data", (DL_FUNC) &_cytoCore_get_pheno_data, 1},
     {NULL, NULL, 0}
 };

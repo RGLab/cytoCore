@@ -3,9 +3,6 @@
 using namespace Rcpp;
 using namespace cytolib;
 CYTOLIB_INIT()
-#ifdef PRT
-
-  
 
 //[[Rcpp::plugins("temp")]]
 //[[Rcpp::export]]
@@ -96,7 +93,7 @@ Rcpp::XPtr<CytoSet> subset_cytoset(Rcpp::XPtr<CytoSet> cs
 Rcpp::XPtr<CytoFrameView> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
                 , Rcpp::RObject i_obj
                 , Rcpp::RObject j_obj
-                , bool useExpr)
+                )
 {
   
   /*
@@ -215,4 +212,4 @@ List get_pheno_data(Rcpp::XPtr<CytoSet> cs)
 }
 
 
-#endif
+

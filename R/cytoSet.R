@@ -39,7 +39,7 @@ setMethod("[[",
             if(missing(j))
               j <- NULL
             
-            fr <- new("cytoFrame", pointer = get_cytoFrame(x@pointer, i, j, use.exprs))
+            fr <- new("cytoFrame", pointer = get_cytoFrame(x@pointer, i, j), use.exprs = use.exprs)
             if(returnType == "flowFrame")
               fr <- as.flowFrame(fr)
             fr
