@@ -40,7 +40,7 @@ void subset_cytoset_by_rows(Rcpp::XPtr<CytoSet> cs
                                             )
 {
   
-  cs->get_cytoframe_view(sn).rows_(idx);
+  cs->get_cytoframe_view_ref(sn).rows_(idx);
 }
   
 // [[Rcpp::export]]
