@@ -168,6 +168,16 @@ setMethod("parameters",
         as.character(parameters(object)[["name"]])
     })
 
+process_spill_keyword <- function(desc){
+  ## the spillover matrix
+  for(sn in flowCore:::.spillover_pattern){
+    sp <- desc[[sn]]
+    if(!is.null(sp)){
+      desc[[sn]] <- flowCore:::txt2spillmatrix(sp)
+    }
+  }
+  desc
+}
 setMethod("keyword",
     signature=signature(object="cytoFrame",
         keyword="character"),
@@ -175,7 +185,9 @@ setMethod("keyword",
       val <- getKeyword(object@pointer,keyword)
       if(val=="")
         val <- NULL
-      structure(list(val), names=keyword)
+      desc <- structure(list(val), names=keyword)
+      process_spill_keyword(desc)
+      
     })
 
 
@@ -194,7 +206,7 @@ setMethod("keyword",
       FCSversion <- desc[["FCSversion"]]
       desc[["FCSversion"]] <- NULL
       desc <- c(FCSversion = FCSversion, desc)  
-      desc
+      process_spill_keyword(desc)
     })
 
 setReplaceMethod("keyword",
