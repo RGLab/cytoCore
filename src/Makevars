@@ -9,7 +9,7 @@ blaslib = -lopenblas
 endif
 
 PKG_LIBS =`${R_HOME}/bin/Rscript -e "RProtoBufLib:::LdFlags();cat(' ');Rhdf5lib::pkgconfig('PKG_CXX_LIBS')"` -l$(fslib)
-PKG_CPPFLAGS = -I../inst/include -DARMA_DONT_USE_WRAPPER $(blaslib) -Wno-unknown-pragmas -Wno-comment
+PKG_CPPFLAGS = -I../inst/include -DARMA_DONT_USE_WRAPPER $(blaslib) -Wno-unknown-pragmas -Wno-comment -DBOOST_NO_AUTO_PTR
 .PHONY: all clean 
 
 all: $(SHLIB) 

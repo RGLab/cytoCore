@@ -69,10 +69,6 @@ getpdata <- function(fr) {
     .Call('_cytoCore_getpdata', PACKAGE = 'cytoCore', fr)
 }
 
-isCytoLibOptimum <- function() {
-    .Call('_cytoCore_isCytoLibOptimum', PACKAGE = 'cytoCore')
-}
-
 setLogLevel <- function(loglevel) {
     invisible(.Call('_cytoCore_setLogLevel', PACKAGE = 'cytoCore', loglevel))
 }

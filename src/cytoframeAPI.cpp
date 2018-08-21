@@ -1,9 +1,6 @@
 #include <cytoCore/pairVectorRcppWrap.h>
 using namespace Rcpp;
 using namespace cytolib;
-#ifdef PRT
- bool isOptimum = true;
-
  
 // [[Rcpp::export]]
 Rcpp::XPtr<CytoFrameView> deep_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr)
@@ -183,9 +180,3 @@ Rcpp::DataFrame getpdata(Rcpp::XPtr<CytoFrameView> fr){
   df.attr("row.names") = rowid;
   return df;
 }
-#else
-bool isOptimum = false;
-#endif
-
-// [[Rcpp::export]]
-bool isCytoLibOptimum(){return isOptimum;}

@@ -200,16 +200,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// isCytoLibOptimum
-bool isCytoLibOptimum();
-RcppExport SEXP _cytoCore_isCytoLibOptimum() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(isCytoLibOptimum());
-    return rcpp_result_gen;
-END_RCPP
-}
 // setLogLevel
 void setLogLevel(unsigned short loglevel);
 RcppExport SEXP _cytoCore_setLogLevel(SEXP loglevelSEXP) {
@@ -324,7 +314,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cytoCore_getncol", (DL_FUNC) &_cytoCore_getncol, 1},
     {"_cytoCore_getnrow", (DL_FUNC) &_cytoCore_getnrow, 1},
     {"_cytoCore_getpdata", (DL_FUNC) &_cytoCore_getpdata, 1},
-    {"_cytoCore_isCytoLibOptimum", (DL_FUNC) &_cytoCore_isCytoLibOptimum, 0},
     {"_cytoCore_setLogLevel", (DL_FUNC) &_cytoCore_setLogLevel, 1},
     {"_cytoCore_fcs_to_cytoset", (DL_FUNC) &_cytoCore_fcs_to_cytoset, 4},
     {"_cytoCore_get_colnames", (DL_FUNC) &_cytoCore_get_colnames, 1},
