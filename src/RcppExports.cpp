@@ -7,6 +7,17 @@
 
 using namespace Rcpp;
 
+// get_h5_file_path
+string get_h5_file_path(Rcpp::XPtr<CytoFrameView> fr);
+RcppExport SEXP _cytoCore_get_h5_file_path(SEXP frSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoFrameView> >::type fr(frSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_h5_file_path(fr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // deep_copy_cytoframe
 Rcpp::XPtr<CytoFrameView> deep_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr);
 RcppExport SEXP _cytoCore_deep_copy_cytoframe(SEXP frSEXP) {
@@ -297,6 +308,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_cytoCore_get_h5_file_path", (DL_FUNC) &_cytoCore_get_h5_file_path, 1},
     {"_cytoCore_deep_copy_cytoframe", (DL_FUNC) &_cytoCore_deep_copy_cytoframe, 1},
     {"_cytoCore_shallow_copy_cytoframe", (DL_FUNC) &_cytoCore_shallow_copy_cytoframe, 1},
     {"_cytoCore_subset_cytoframe_by_rows", (DL_FUNC) &_cytoCore_subset_cytoframe_by_rows, 2},

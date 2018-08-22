@@ -237,3 +237,12 @@ as.flowFrame <- function(fr){
 write.h5 <- function(fr, filename){
   writeH5(fr@pointer,filename)
 }
+
+#' return the file path of underlying h5 file
+#' For the in-memory version of cytoFrame, it returns empty string.Thus can be used to check whether it is on-disk format.
+#' @param fr cytoFrame object
+#' @export 
+fr_get_h5_file_path <- function(fr){
+  get_h5_file_path(fr@pointer)
+  
+}

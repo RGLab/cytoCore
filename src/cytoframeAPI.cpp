@@ -2,6 +2,13 @@
 using namespace Rcpp;
 using namespace cytolib;
  
+
+// [[Rcpp::export]]
+string get_h5_file_path(Rcpp::XPtr<CytoFrameView> fr)
+{
+	return fr->get_h5_file_path();
+}
+
 // [[Rcpp::export]]
 Rcpp::XPtr<CytoFrameView> deep_copy_cytoframe(Rcpp::XPtr<CytoFrameView> fr)
 {
