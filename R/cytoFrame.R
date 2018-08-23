@@ -6,7 +6,8 @@ NULL
 setClass("cytoFrame", contains = "flowFrame" ,               
     representation=representation(pointer = "externalptr"
                                   , use.exprs = "logical" #for the purpose  of backward compatible (e.g. fs[[1, use.exprs = F]]
-                                  )
+                                  ),
+                                  prototype = list(use.exprs = FALSE) 
                               )
 
 #' @import flowCore 

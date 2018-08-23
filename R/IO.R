@@ -42,6 +42,7 @@ load_cytoframe_from_fcs <- function(filename,
                                                          )
                                                      , text_only = text.only
                             )
+     fr@use.exprs <- !text.only
 
     return(fr)
 }
