@@ -96,6 +96,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// load_cf_from_h5
+XPtr<CytoFrameView> load_cf_from_h5(string filename, bool on_disk);
+RcppExport SEXP _cytoCore_load_cf_from_h5(SEXP filenameSEXP, SEXP on_diskSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< bool >::type on_disk(on_diskSEXP);
+    rcpp_result_gen = Rcpp::wrap(load_cf_from_h5(filename, on_disk));
+    return rcpp_result_gen;
+END_RCPP
+}
 // setMarker
 void setMarker(Rcpp::XPtr<CytoFrameView> fr, string old, string new_name);
 RcppExport SEXP _cytoCore_setMarker(SEXP frSEXP, SEXP oldSEXP, SEXP new_nameSEXP) {
@@ -316,6 +328,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cytoCore_frm_compensate", (DL_FUNC) &_cytoCore_frm_compensate, 2},
     {"_cytoCore_get_spillover", (DL_FUNC) &_cytoCore_get_spillover, 2},
     {"_cytoCore_writeH5", (DL_FUNC) &_cytoCore_writeH5, 2},
+    {"_cytoCore_load_cf_from_h5", (DL_FUNC) &_cytoCore_load_cf_from_h5, 2},
     {"_cytoCore_setMarker", (DL_FUNC) &_cytoCore_setMarker, 3},
     {"_cytoCore_setChannel", (DL_FUNC) &_cytoCore_setChannel, 3},
     {"_cytoCore_parseFCS", (DL_FUNC) &_cytoCore_parseFCS, 3},

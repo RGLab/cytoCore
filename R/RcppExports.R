@@ -33,6 +33,10 @@ writeH5 <- function(fr, filename) {
     invisible(.Call('_cytoCore_writeH5', PACKAGE = 'cytoCore', fr, filename))
 }
 
+load_cf_from_h5 <- function(filename, on_disk = TRUE) {
+    .Call('_cytoCore_load_cf_from_h5', PACKAGE = 'cytoCore', filename, on_disk)
+}
+
 setMarker <- function(fr, old, new_name) {
     invisible(.Call('_cytoCore_setMarker', PACKAGE = 'cytoCore', fr, old, new_name))
 }

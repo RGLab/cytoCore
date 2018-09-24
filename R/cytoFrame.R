@@ -235,10 +235,17 @@ as.flowFrame <- function(fr){
 #' @param fr cytoFrame object
 #' @param filename the full path of the output h5 file
 #' @export
-write.h5 <- function(fr, filename){
+fr_write_h5 <- function(fr, filename){
   writeH5(fr@pointer,filename)
 }
 
+#' Load the cytoFrame from h5 format
+#' @param filename the full path of the output h5 file
+#' @param on_disk logical flag indicating whether to keep the data on disk and load it on demand. Default is TRUE.
+#' @export
+load_cytoframe_from_h5 <- function(filename, on_disk = TRUE){
+  new("cytoFrame", pointer = load_cf_from_h5(filename, on_disk), use.exprs = TRUE)
+}
 #' return the file path of underlying h5 file
 #' For the in-memory version of cytoFrame, it returns empty string.Thus can be used to check whether it is on-disk format.
 #' @param fr cytoFrame object

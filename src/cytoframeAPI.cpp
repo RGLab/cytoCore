@@ -77,6 +77,19 @@ void writeH5(Rcpp::XPtr<CytoFrameView> fr, string filename){
   
 }
 
+// [[Rcpp::export]]
+XPtr<CytoFrameView> load_cf_from_h5(string filename, bool on_disk = true){
+    unique_ptr<CytoFrame> fr(new H5CytoFrame(filename.c_str()));
+
+	if(on_disk)
+		return Rcpp::XPtr<CytoFrameView>(new CytoFrameView(CytoFramePtr(fr.release())));
+	else
+	{
+		return Rcpp::XPtr<CytoFrameView>(new CytoFrameView(CytoFramePtr(new MemCytoFrame(*fr.release()))));
+	}
+
+}
+
 // [[Rcpp::export]] 
 void setMarker(Rcpp::XPtr<CytoFrameView> fr, string old, string new_name){
   fr->set_marker(old, new_name);
