@@ -147,14 +147,18 @@ copyCytoSet <- function(x){
 #		})
 #
 #
-#
-#setReplaceMethod("pData",
-#		signature=signature(object="cytoSet",
-#				value="data.frame"),
-#		definition=function(object,value)
-#		{
-#			stop("not be implemented!")
-#		})
+
+#' @export 
+setReplaceMethod("pData",
+	signature=signature(object="cytoSet",
+			value="data.frame"),
+	definition=function(object,value)
+	{
+	  for(i in seq_along(value))
+	    value[[i]] <- as.character(value[[i]])
+	  set_pheno_data(object@pointer, value)
+	  object
+	  })
 #
 #
 #

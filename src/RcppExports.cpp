@@ -307,6 +307,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// set_pheno_data
+void set_pheno_data(Rcpp::XPtr<CytoSet> cs, DataFrame value);
+RcppExport SEXP _cytoCore_set_pheno_data(SEXP csSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::XPtr<CytoSet> >::type cs(csSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type value(valueSEXP);
+    set_pheno_data(cs, value);
+    return R_NilValue;
+END_RCPP
+}
 // get_pheno_data
 List get_pheno_data(Rcpp::XPtr<CytoSet> cs);
 RcppExport SEXP _cytoCore_get_pheno_data(SEXP csSEXP) {
@@ -346,6 +357,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cytoCore_subset_cytoset_by_rows", (DL_FUNC) &_cytoCore_subset_cytoset_by_rows, 3},
     {"_cytoCore_subset_cytoset", (DL_FUNC) &_cytoCore_subset_cytoset, 3},
     {"_cytoCore_get_cytoFrame", (DL_FUNC) &_cytoCore_get_cytoFrame, 3},
+    {"_cytoCore_set_pheno_data", (DL_FUNC) &_cytoCore_set_pheno_data, 2},
     {"_cytoCore_get_pheno_data", (DL_FUNC) &_cytoCore_get_pheno_data, 1},
     {NULL, NULL, 0}
 };

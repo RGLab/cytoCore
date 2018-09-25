@@ -171,7 +171,26 @@ Rcpp::XPtr<CytoFrameView> get_cytoFrame(Rcpp::XPtr<CytoSet> cs
    
 }
 
+// [[Rcpp::export]] 
+void set_pheno_data(Rcpp::XPtr<CytoSet> cs, DataFrame value)
+{
+  
+  vector<string> sample_uids = as<vector<string>>(value.attr("row.names"));
+  vector<string> colnames = as<vector<string>>(value.names());
+  
+  for(auto i = 0; i < value.rows(); i++)
+  {
+    CytoFrameView & fr = cs->get_cytoframe_view_ref(sample_uids[i]);
+    PDATA pd;
+    for(const string & key : colnames)
+    {
+      vector<string> col = value[key];
+      pd[key] = col[i];
+    }
+    fr.set_pheno_data(pd);
+  }
 
+}
 
 // [[Rcpp::export]] 
 List get_pheno_data(Rcpp::XPtr<CytoSet> cs)

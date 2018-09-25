@@ -105,6 +105,10 @@ get_cytoFrame <- function(cs, i_obj, j_obj) {
     .Call('_cytoCore_get_cytoFrame', PACKAGE = 'cytoCore', cs, i_obj, j_obj)
 }
 
+set_pheno_data <- function(cs, value) {
+    invisible(.Call('_cytoCore_set_pheno_data', PACKAGE = 'cytoCore', cs, value))
+}
+
 get_pheno_data <- function(cs) {
     .Call('_cytoCore_get_pheno_data', PACKAGE = 'cytoCore', cs)
 }
